@@ -3,6 +3,19 @@
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Shop</h1>
         <p class="text-gray-600 mb-8">Pilih source code atau sistem yang Anda butuhkan</p>
 
+        @if($categories->isNotEmpty())
+            <div class="flex flex-wrap gap-2 mb-8">
+                <a href="{{ route('shop.index') }}" class="px-4 py-2 rounded-full text-sm font-medium transition {{ !$category ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                    Semua
+                </a>
+                @foreach($categories as $cat)
+                    <a href="{{ route('shop.index', ['category' => $cat]) }}" class="px-4 py-2 rounded-full text-sm font-medium transition {{ $category == $cat ? 'bg-indigo-600 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                        {{ $cat }}
+                    </a>
+                @endforeach
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @forelse($products as $product)
                 <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition">

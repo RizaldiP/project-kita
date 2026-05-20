@@ -1,30 +1,50 @@
 <x-admin-layout>
     <x-slot:header>
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Produk</h2>
-            <a href="{{ route('admin.products.index') }}" class="text-gray-600 hover:text-gray-800 text-sm flex items-center gap-1">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                </div>
+                <div>
+                    <h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Produk</h2>
+                    <p class="text-sm text-gray-500">Tambahkan produk baru ke toko</p>
+                </div>
+            </div>
+            <a href="{{ route('admin.products.index') }}" class="text-gray-600 hover:text-gray-800 text-sm flex items-center gap-1 bg-gray-100 hover:bg-gray-200 px-3 py-2 rounded-lg transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Kembali
             </a>
         </div>
     </x-slot:header>
 
-    <div class="max-w-4xl mx-auto">
-        <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Informasi Produk</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Produk <span class="text-red-500">*</span></label>
-                                <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Aplikasi Kasir Restaurant" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                                @error('name')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
-                            </div>
+    <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <div class="lg:col-span-3 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-indigo-500 to-indigo-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Informasi Produk
+                        </h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Produk <span class="text-red-500">*</span></label>
+                            <input type="text" name="name" value="{{ old('name') }}" required placeholder="e.g. Aplikasi Kasir Restaurant" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            @error('name')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                                <input type="text" name="category" value="{{ old('category') }}" placeholder="e.g. Website, Aplikasi Desktop, Mobile" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <select name="category" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option value="">Pilih kategori...</option>
+                                    <option value="Website Laravel" @selected(old('category') == 'Website Laravel')>Website Laravel</option>
+                                    <option value="Python" @selected(old('category') == 'Python')>Python</option>
+                                    <option value="Program C" @selected(old('category') == 'Program C')>Program C</option>
+                                    <option value="Code Igniter" @selected(old('category') == 'Code Igniter')>Code Igniter</option>
+                                    <option value="Java" @selected(old('category') == 'Java')>Java</option>
+                                </select>
                                 @error('category')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                             </div>
                             <div>
@@ -35,37 +55,54 @@
                                 </div>
                                 @error('price')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                             </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                                <textarea name="description" rows="5" placeholder="Jelaskan tentang produk ini..." class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
-                                @error('description')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
-                            </div>
                         </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Fitur Produk</h3>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Fitur <span class="text-gray-400 text-xs">(satu per baris)</span></label>
-                            <textarea name="features" rows="6" placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 font-mono text-sm">{{ old('features') }}</textarea>
-                            @error('features')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Konten / Review Produk</h3>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi panjang <span class="text-gray-400 text-xs">(gambar, teks, tabel — bebas)</span></label>
-                            <textarea name="content" id="editor" rows="12" class="w-full border-gray-300 rounded-lg shadow-sm">{{ old('content') }}</textarea>
-                            @error('content')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Singkat</label>
+                            <textarea name="description" rows="3" placeholder="Jelaskan tentang produk ini..." class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                            @error('description')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Gambar Thumbnail</h3>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-indigo-400 transition cursor-pointer" id="image-dropzone">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                            Fitur Produk
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Fitur <span class="text-gray-400 text-xs">(satu per baris)</span></label>
+                        <textarea name="features" rows="5" placeholder="Fitur 1&#10;Fitur 2&#10;Fitur 3" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-emerald-500 focus:border-emerald-500 font-mono text-sm">{{ old('features') }}</textarea>
+                        @error('features')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-violet-500 to-violet-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                            Konten / Review Produk
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Deskripsi panjang <span class="text-gray-400 text-xs">(gambar, teks, tabel — bebas)</span></label>
+                        <textarea name="content" id="editor" rows="12" class="w-full border-gray-300 rounded-lg shadow-sm">{{ old('content') }}</textarea>
+                        @error('content')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-amber-500 to-amber-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            Gambar Thumbnail
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-amber-400 transition cursor-pointer" id="image-dropzone">
                             <div id="image-placeholder">
                                 <svg class="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                                 <p class="text-sm text-gray-500">Klik untuk upload thumbnail</p>
@@ -76,40 +113,54 @@
                         </div>
                         @error('image')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Galeri Produk</h3>
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-indigo-400 transition cursor-pointer" id="gallery-dropzone">
-                            <svg class="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-rose-500 to-rose-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            Galeri Produk
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-rose-400 transition cursor-pointer" id="gallery-dropzone">
+                            <svg class="w-10 h-10 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             <p class="text-sm text-gray-500">Klik untuk pilih banyak gambar</p>
-                            <p class="text-xs text-gray-400 mt-1">Bisa pilih beberapa gambar sekaligus. JPG, PNG, WebP. Maks 2MB per file</p>
+                            <p class="text-xs text-gray-400 mt-1">Bisa pilih beberapa gambar sekaligus</p>
                             <input type="file" name="images[]" accept="image/jpeg,image/png,image/webp" class="hidden" id="gallery-input" multiple>
                         </div>
-                        <div id="gallery-previews" class="grid grid-cols-3 gap-3 mt-4"></div>
+                        <div id="gallery-previews" class="grid grid-cols-2 gap-2 mt-4"></div>
                         @error('images.*')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Status</h3>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="px-6 py-4 bg-gradient-to-r from-cyan-500 to-cyan-600">
+                        <h3 class="font-semibold text-white flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Status
+                        </h3>
+                    </div>
+                    <div class="p-6">
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="is_active" value="1" checked class="sr-only peer" id="is_active">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
                             <span class="ms-3 text-sm font-medium text-gray-700" id="status-label">Aktif</span>
                         </label>
                         <p class="text-xs text-gray-400 mt-2">Nonaktifkan untuk menyembunyikan produk dari toko</p>
                     </div>
+                </div>
 
-                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <button type="submit" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center justify-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                            Simpan Produk
-                        </button>
-                        <a href="{{ route('admin.products.index') }}" class="w-full block text-center mt-2 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 text-sm">Batal</a>
-                    </div>
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-sm p-6">
+                    <button type="submit" class="w-full bg-white text-indigo-700 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition flex items-center justify-center gap-2 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Simpan Produk
+                    </button>
+                    <a href="{{ route('admin.products.index') }}" class="w-full block text-center mt-3 text-white/80 hover:text-white py-2 text-sm transition">Batal</a>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 
     @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@latest/dist/ckeditor.min.js"></script>
@@ -145,7 +196,7 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'relative group';
                 const img = document.createElement('img');
-                img.className = 'w-full h-28 object-cover rounded-lg border border-gray-200';
+                img.className = 'w-full h-24 object-cover rounded-lg border border-gray-200';
                 wrapper.appendChild(img);
                 galleryPreviews.appendChild(wrapper);
                 reader.onload = (ev) => { img.src = ev.target.result; };

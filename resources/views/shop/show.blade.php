@@ -62,12 +62,12 @@
                         @csrf
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                            <input type="text" name="customer_name" required value="{{ old('customer_name', auth()->user()->name ?? '') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <input type="text" name="customer_name" required value="{{ old('customer_name') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             @error('customer_name')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                            <input type="email" name="customer_email" required value="{{ old('customer_email', auth()->user()->email ?? '') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <input type="email" name="customer_email" required value="{{ old('customer_email') }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             @error('customer_email')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>

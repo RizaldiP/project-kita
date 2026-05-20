@@ -24,12 +24,24 @@ class ShopController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::where('is_active', true)->latest()->paginate(12);
+        $category = $request->query('category');
+        $query = Product::where('is_active', true);
+
+        if ($category) {
+            $query->where('category', $category);
+        }
+
+        $products = $query->latest()->paginate(12);
+        $categories = Product::where('is_active', true)
+            ->whereNotNull('category')
+            ->distinct()
+            ->pluck('category');
+
         return view('shop.index', array_merge(
             $this->frontSettings(),
-            compact('products')
+            compact('products', 'categories', 'category')
         ));
     }
 
